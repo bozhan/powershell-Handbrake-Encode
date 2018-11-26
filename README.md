@@ -2,6 +2,7 @@
 Using powerhsell and Handbrake CLI to encode all files in a provided directory with the same encode settings.
 
 Currently uses HandBrakeCLI-1.1.1 located in the ./lib folder
+https://handbrake.fr/downloads2.php
 
 Use Handbrake-Encode.ps1 to encode files in specified folder path.
 For additional help use the -help operatior with Handbrake-Encode.ps1.
