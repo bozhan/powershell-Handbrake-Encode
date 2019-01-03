@@ -1,5 +1,196 @@
 # HandBrake News
 
+## HandBrake 1.2.0
+
+### All platforms
+
+#### General
+
+- Switched core decoding library from Libav to FFmpeg
+  - Fixes numerous sources previously unreadable or otherwise broken
+  - Facilitates a number of the improvements and features in this release and planned for the future
+- Removed deprecated Legacy presets
+  - See the [list of compatible replacements on GitHub](https://github.com/HandBrake/HandBrake-docs/blob/efb51cc2cd7d0c30fa5e9ee88366233ca34757a4/source/docs/en/latest/technical/official-presets.markdown#legacy-010x-presets)
+- Updated official presets to use stereo instead of DPL2 mixdown
+  - Avoids potential spatial positioning issues with the current DPL2 algorithm and wide pans in source material
+  - Limited in impact since DPL2 decoding has not been in widespread use for years
+- Updated official presets descriptions to revise compatibility and mention recently released devices
+- Updated official presets to rename Fire TV to Amazon Fire
+- Added Amazon Fire 720p30 and Chromecast 1080p60 presets
+- Added `{creation-date}` and `{creation-time}` to automatic file naming
+
+#### Video
+
+- Fixed an issue decoding Blu-ray titles where the aspect ratio is unknown (assume 16:9)
+- Fixed an issue encoding video with very short frame durations (less than 0.00285s or greater than 350 FPS)
+- Improved extradata handling to accommodate all codecs
+- Added support for decoding TIFF/LZMA video
+
+#### Audio
+
+- Fixed potential decoding issue for audio lacking an explicit channel layout (intelligently guess the layout)
+- Fixed a potential crash during audio probe
+- Improved resampling to allow dithering for all codecs (only where necessary)
+- Improved quality of the default AAC encoder on non-Mac platforms (FFmpeg AAC), no longer experimental
+- Improved bit rate constraints to allow Opus as low as 6 kbit/s per channel
+- Added support for up to 7.1 channel AAC encoding (note that FDK AAC/HE-AAC do not support 6.1)
+- Added support for E-AC3 audio in MP4 container
+- Added Speex audio decoder
+
+#### Subtitles
+
+- Fixed a potential crash where an SRT file cannot be opened
+- Added support for SRT files using periods instead of commas to delineate fractions
+
+#### Command line interface
+
+- Fixed inability to override preset subtitles burn setting (`native` and `none` are now valid values for `--subtitle-burned`)
+
+#### Build system
+
+- Fixed Linux packaging with an out-of-tree build directory
+- Fixed Windows graphical interface build script signing tool location
+- Removed `--enable-local-*` and associated contrib libraries; please see the [documentation](https://handbrake.fr/docs/) for dependencies help
+- Updated to mingw-w64-build 4.1.0 with gcc 7.3.0, continuous output (keep alive), and miscellaneous improvements
+- Improved support for building with Xcode 10
+- Improved support for building on FreeBSD 11, 12, and 13
+- Improved Flatpak packaging for Linux (numerous fixes and improvements, no longer experimental)
+- Improved `configure.py` to always use the Python executable found by `configure`
+- Added script for creating Flatpak manifests
+- Added support for selecting a compiler via the CC environment variable
+- Miscellaneous bug fixes and improvements
+
+#### Third-party libraries
+
+- Removed libraries
+  - Libav 12.3 (decoding and filters)
+  - yasm 1.3.0
+- Updated libraries
+  - libopus 1.3 (Opus audio encoding)
+  - x264 157 r2935 (H.264/AVC video encoding)
+  - x265 2.9 (H.265/HEVC video encoding)
+- New libraries
+  - FFmpeg 4.1 (decoding and filters)
+  - liblzma (xz) 5.2.4 (LZMA video decoding, e.g. TIFF)
+  - libspeex 1.2.0 (Speex audio decoding)
+
+### Linux
+
+- Fixed Blu-ray title name being set to device name (e.g. sr0) when scanning raw devices
+- Fixed Blu-ray default destination file names to no longer include MPLS number
+- Fixed an issue with queue state not being updated properly on reload
+- Fixed various issues importing presets
+- Updated most translations
+- Added initial support for GTK 4
+- Added ability to customize activity window font size and increased default from 7 to 8
+- Added destination overwrite protection (append number to file name on conflict)
+- Added `{source-path}` to automatic path setting
+- Miscellaneous bug fixes and improvements
+
+### Mac
+
+- HandBrake now requires OS X 10.10 Yosemite or later
+- Removed preferences option to show the advanced tab (deprecated and slated for removal)
+- Fixed minor display issues on macOS 10.14 Mojave
+- Fixed queue toolbar icon not updating
+- Removed Growl in favor of native system notifications
+- Updated Sparkle automatic update library
+- Improved handling of invalid presets
+- Improved layout to better support localization
+- Improved preview border alignment on high density displays
+- Improved automatic naming to avoid updating when unrelated settings change
+- Improved criteria for showing destination overwrite warnings
+- Improved stop encoding confirmation dialog
+- Improved notifications to no longer play sounds when alerts are disabled
+- Added initial localization support and German translation
+- Added initial support for VideoToolbox hardware-accelerated encoding
+- Added support for Dark Mode on macOS 10.14 Mojave (new Dark Mode toolbar icons require building with Xcode 10 on Mojave)
+- Added Touch Bar support to various windows and dialogs
+- Added Finder progress bar to files currently encoding
+- Added Show Source in Finder to queue contextual menu (renamed Show in Finder to Show Destination in Finder)
+- Added validation for custom filter parameters
+- Miscellaneous bug fixes and improvements
+
+### Windows
+
+- HandBrake now requires .NET Framework 4.7.1 or later (installer offers download if missing)
+- Fixed mixdown selection where the specified mixdown in the selected preset is not available
+- Fixed audio sample rate of 48 kHz being selected where Auto was the specified behavior
+- Removed preferences option to show the advanced tab (deprecated and slated for removal)
+- Removed options menu from queue in favor of contextual menu
+- Improved layout to better support localization
+- Improved error handling when adding items to the queue
+- Improved multi-instance queue recovery to avoid loading queue files from the wrong instance
+- Improved filters layout and controls
+- Improved video quality slider by allowing it to grow with window size and setting x264/x265 granularity to 0.5
+- Improved SRT import default browse location (open source video location)
+- Improved keyboard shortcuts by making Ctrl-S open the destination save dialog (start encode is now Ctrl-E)
+- Added additional keyboard shortcuts for various actions
+- Added initial localization support and German translation
+- Added support for AMD VCE and Nvidia NVENC hardware-accelerated encoders
+- Added automatic queue archiving and option to select an archived queue for recovery (archives are removed after 7 days)
+- Added support for recovering specific queue files on start using `--recover-queue-ids=<id1,id2,...>`
+- Added additional controls to passthru audio tracks to configure audio fallback parameters
+- Added ability to drag and drop SRT subtitles files onto the main window
+- Added option to disable preview image on summary tab
+- Added option to disable checking for update on start in portable mode
+- Added stop encoding confirmation dialog
+- Miscellaneous bug fixes and improvements
+
+
+## HandBrake 1.1.2
+
+### All platforms
+
+#### General
+
+- Fixed Blu-ray title name where reading from raw device
+- Improved handling of broken units in Blu-ray source (skip and continue reading)
+
+#### Video
+
+- Fixed rare crash related to preview images, anamorphic, and default preset values
+- Fixed jitter produced by 59.94 fps to 29.97 fps frame rate conversion
+
+#### Audio
+
+- Fixed duration of silence buffers (may improve audio/video sync for some sources)
+
+#### Build system
+
+- Fixed linker warning by setting libvpx target to minimum supported macOS version
+- Fixed build failure with old GTK versions
+- Miscellaneous Flatpak-related fixes and improvements
+
+#### Third-party libraries
+
+- Updated libraries (necessary to pull in needed bug fixes)
+  - libdvdread 6.0.0 (DVD decoding)
+  - libdvdnav 6.0.0 (DVD decoding)
+
+### Linux
+
+- Fixed potential crash where $HOME directory is missing
+- Fixed legacy preferences causing preset window being shown at every launch
+- Fixed preset name and menu display on Ubuntu 14.04 Trusty Tahr
+- Fixed default destination file name for Blu-ray source to not include MPLS number
+- Fixed queue reloading in Flatpak sandbox
+- Fixed toolbar icons alignment and use correct art for lower pixel density
+- Updated most translations
+
+### Mac
+
+- Fixed menu item and tooltip strings related to selection behavior
+- Fixed crash where presets file contains invalid UTF-8
+
+### Windows
+
+- Fixed incorrect track selection behaviours on audio and subtitle tabs
+- Fixed creating an unneeded HandBrake Team directory in the user's Roaming directory
+- Improved path handling when opening a source directory from the queue
+- Miscellaneous bug fixes and improvements
+
+
 ## HandBrake 1.1.1
 
 ### All platforms
@@ -53,6 +244,7 @@
 - Improved privacy by adding an option to disable the Summary tab preview image
 - Updated installer to block installation on 32-bit systems to avoid confusion (unsupported since 1.1.0)
 - Miscellaneous bug fixes and improvements
+
 
 ## HandBrake 1.1.0
 
@@ -253,7 +445,7 @@ Superseded by HandBrake 1.0.5.
 
 ### All platforms
 
-#### Video 
+#### Video
 
 - Fixed point to point encoding end point when using frames as the unit
 - Improve error handling for libdvdread and libavcodec decoders
@@ -814,12 +1006,12 @@ Superseded by HandBrake 1.0.5.
 
 ### Core Library
 
-- BluRay disc structure support. (No decryption support) 
-- Updated Libraries (x264, ffmpeg) 
-- SSA Subtitle support. (Including burn-in) 
-- MP3 audio now supported in MP4 files (Note: Limited Player compatibility) 
-- VOBSUB subtitle now supported in MP4 files (Note: Limited Player compatibility) 
-- Updated Presets for newer devices and better quality 
+- BluRay disc structure support. (No decryption support)
+- Updated Libraries (x264, ffmpeg)
+- SSA Subtitle support. (Including burn-in)
+- MP3 audio now supported in MP4 files (Note: Limited Player compatibility)
+- VOBSUB subtitle now supported in MP4 files (Note: Limited Player compatibility)
+- Updated Presets for newer devices and better quality
 - AC3 encoding support.
 - Many Bug fixes and other small improvements
 - Improved DVD Main Feature detection (when using dvdnav)
@@ -829,7 +1021,7 @@ Superseded by HandBrake 1.0.5.
 
 - Updated x264 Advanced Panel
 - Video Quality Slider drops % value and only shows RF for x264
-- Batch Scan (Scan Multiple files at once. N.B: Does not include multiple VIDEO_TS folders / Image files) 
+- Batch Scan (Scan Multiple files at once. N.B: Does not include multiple VIDEO_TS folders / Image files)
 - Peak framerate option (Capped VFR)
 - Many Bug fixes
 - Many Tweaks to improve usability.
@@ -850,7 +1042,7 @@ Superseded by HandBrake 1.0.5.
 ### Linux GUI
 
 - Multiple instance support (run multiple copies of ghb at once)
-- Many Bug fixes and UI improvements. 
+- Many Bug fixes and UI improvements.
 
 ## HandBrake 0.9.4
 
@@ -888,7 +1080,7 @@ Superseded by HandBrake 1.0.5.
 - Better AV sync
 - Support for sources with no audio
 - DTS passthrough for MKV
-- x264 bumped from r1169 to r1347, which means speed optimizations, new default settings (see r2742 commit comment), the magic of macroblock tree rate control (mbtree), a new CRF curve (meaning you will get different, generally lower bitrates at the same RF, with similar quality metrics), and weighted P-Frames (disabled by default for Baseline encodes and the AppleTV preset). 
+- x264 bumped from r1169 to r1347, which means speed optimizations, new default settings (see r2742 commit comment), the magic of macroblock tree rate control (mbtree), a new CRF curve (meaning you will get different, generally lower bitrates at the same RF, with similar quality metrics), and weighted P-Frames (disabled by default for Baseline encodes and the AppleTV preset).
 - Better sample interleaving
 - Better, optional deinterlacer for decomb (EEDI2)
 - New mode structure for the decomb filter
@@ -925,7 +1117,7 @@ Superseded by HandBrake 1.0.5.
 - H.264 video source decoding crash fixed
 - Queue displays varying row heights based on encode settings
 - Fixed EyeTV package scanning
-- 64bit / 32 bit VLC detection 
+- 64bit / 32 bit VLC detection
 - Preset import/export
 
 ### Windows
@@ -1289,7 +1481,7 @@ The Universal preset is designed to play on all modern iPods (anything newer tha
 ### CLI
 
 - Built-in presets
-- Short names for denoising (weak, medium, strong) and deinterlacing (fast, slow, slower) 
+- Short names for denoising (weak, medium, strong) and deinterlacing (fast, slow, slower)
 - Solaris port
 - No more x264b30 (use -e x264 -I -x level=30:cabac=0 instead or better yet an iPod preset)
 - Chapter marker .csv input fixed
@@ -1440,28 +1632,28 @@ The Universal preset is designed to play on all modern iPods (anything newer tha
 ### Windows GUI Changes - Version 2.2 beta 1
 
 - Added: A few presets for the iPod in the menu.
-- Added: Ability to set default settings for all program encode options. 
+- Added: Ability to set default settings for all program encode options.
 - Added: Ability to turn off Automatic Update check on start-up. See Tools > Options
-- Added: Mod 16 check on the Height and Width boxes. 
-- Added: Check the amount of hard disk space left is not running low when saving file. 
+- Added: Mod 16 check on the Height and Width boxes.
+- Added: Check the amount of hard disk space left is not running low when saving file.
 - Added: Option to have a Read DVD window showup on start-up.
-- Added: ìView DVD dataî Menu item in the tools menu. 
+- Added: ìView DVD dataî Menu item in the tools menu.
 - Added: Links to the Homepage, forum, wiki and documentation page in the Help menu.
 - Added: Chapter markers check box (New feature in 0.8.5b1 CLI)
-- Changed: View DVD Information no longer appears after clicking the ìBrowseî button. 
-- Changed: A few changes to the GUI - replaced textboxes with Dropdowns which auto-populate. 
+- Changed: View DVD Information no longer appears after clicking the ìBrowseî button.
+- Changed: A few changes to the GUI - replaced textboxes with Dropdowns which auto-populate.
 - Changed: Auto Crop and Aspect text now automatically update when a new title is selected.
 - Changed: Several tweaks to the GUI design, remove a few text items that are no longer needed.
-- Changed: Ability to Queue videos enabled with completely re-written code. 
-- Changed: Ability to queue stuff up while the encoding process is running. 
-- Changed: Ability to remove items from the encode queue while is running. 
-- Changed: Anamorphic option blanks out resolution boxes. 
-- Changed: Re-written update checker. 
+- Changed: Ability to Queue videos enabled with completely re-written code.
+- Changed: Ability to queue stuff up while the encoding process is running.
+- Changed: Ability to remove items from the encode queue while is running.
+- Changed: Anamorphic option blanks out resolution boxes.
+- Changed: Re-written update checker.
 - Changed: Ability to turn off update check on start-up in Tools > Options
-- Changed: Auto Crop option now fills in figures into text boxes when selected. 
+- Changed: Auto Crop option now fills in figures into text boxes when selected.
 - Changed: Mp4 now default output file extension.
 - Changed: Enabled 5.1 AAC option.
-- Changed: Enabled h264 advanced options. 
+- Changed: Enabled h264 advanced options.
 - Changed: Updated the FAQ.
 - Changed: Included new version of HandBrake. Version 0.8.5b1.
 - Fixed: Pixel Ratio Not being saved with the profile.

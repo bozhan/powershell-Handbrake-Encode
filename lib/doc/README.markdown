@@ -1,10 +1,10 @@
-# HandBrake
+# HandBrake [![Build Status](https://travis-ci.com/HandBrake/HandBrake.svg?branch=master)](https://travis-ci.com/HandBrake/HandBrake)
 
 HandBrake is an open-source video transcoder available for Linux, Mac, and Windows, licensed under the [GNU General Public License (GPL) Version 2](LICENSE).
 
 HandBrake takes videos you already have and makes new ones that work on your mobile phone, tablet, TV media player, game console, computer, or web browser—nearly anything that supports modern video formats.
 
-HandBrake works with most common video files and formats, including ones created by consumer and professional video cameras, mobile devices such as phones and tablets, game and computer screen recordings, and DVD and Blu-ray discs. HandBrake leverages tools such as Libav, x264, and x265 to create new MP4 or MKV video files from these *Sources*.
+HandBrake works with most common video files and formats, including ones created by consumer and professional video cameras, mobile devices such as phones and tablets, game and computer screen recordings, and DVD and Blu-ray discs. HandBrake leverages tools such as FFmpeg, x264, and x265 to create new MP4 or MKV video files from these *Sources*.
 
 For information on downloading, building/installing, and using HandBrake, see the official [HandBrake Documentation](https://handbrake.fr/docs).
 
@@ -17,23 +17,22 @@ Chat on [#handbrake on Freenode IRC](https://webchat.freenode.net/?channels=hand
 
 For information on HandBrake's community support channels, please see [Community Support](https://handbrake.fr/docs/en/latest/help/community-support.html).
 
+Our [community rules](https://forum.handbrake.fr/app.php/rules) and [code of conduct](https://github.com/HandBrake/HandBrake/blob/master/CODE_OF_CONDUCT.md) apply to both our site and GitHub.
+
 
 ## Contributing
 
-We welcome most contributions. While it is our goal to allow everyone to contribute, contributions not meeting the project's standards may be rejected. If this happens to you, don't fret. We usually provide reasons for rejection to give you the opportunity to correct anything out of place. Consider asking first before attempting to make sweeping changes.
+We welcome most contributions. While it is our goal to allow everyone to contribute, contributions not meeting the project's goals or  standards may be rejected.
 
-First fork the HandBrake repository using GitHub's web interface, and clone the fork to your local machine (`git clone my-fork`). Then create and switch to an appropriately named local branch to track your changes (`git checkout master; git checkout --branch branch-name`). This allows you to make as many changes as you like without affecting the `master` branch, and helps identify groups of changes when submitting pull requests later on.
+Please read our [guide to contributing](https://handbrake.fr/docs/en/latest/contributing/contribute.html). This will provide you with all the information you need to start contributing to the project. 
 
-To make a change, edit the appropriate file(s), commit them to your local branch (`git add changed-files; git commit`), and push the branch to your fork on GitHub (`git push my-fork branch-name`). You're now ready to open a pull request using GitHub's web interface.
+## Translations
 
-For more on this workflow, read [Understanding the GitHub Flow](https://guides.github.com/introduction/flow/).
+We are now accepting translations via  [Transifex](https://www.transifex.com/HandBrakeProject/) 
 
-### Translations
+Initially we are planning to support a limited set of languages while we evaluate the service and overheads. 
 
-The Mac and Windows GUIs are currently only available in English, and do not support other translations at this time.
-
-The Linux GUI is currently available in multiple languages thanks to the [HandBrake Transifex project](https://www.transifex.com/victorr2007/handbrake/) created by Victorr2007. If you would like to help translate HandBrake in your language, [go there now](https://www.transifex.com/victorr2007/handbrake/).
-
+Please get in touch if you'd like to contribute to a translation. 
 
 ## Additional Information
 
